@@ -1,4 +1,5 @@
 import { Transfer } from "./transfer.js";
+import { signalingUrl, publicUrl } from "./config.js";
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => {
   if (!n) return "0 B";
@@ -97,15 +98,10 @@ $("drop").ondrop = (e) => {
   choose(e.dataTransfer.files[0]);
 };
 function baseUrl() {
-  return (
-    config.public_url || `${location.protocol}//${location.hostname}:8501/`
-  );
+  return publicUrl(config, location.href);
 }
 function wsUrl() {
-  return (
-    config.signaling_url ||
-    `${location.protocol === "https:" ? "wss:" : "ws:"}//${location.hostname}:8765/ws`
-  );
+  return signalingUrl(config, location.href);
 }
 function setup(configValue) {
   config = configValue;
@@ -114,7 +110,15 @@ function setup(configValue) {
     tab(true);
     $("codeInput").value = room;
   }
-  const direct = new URL(wsUrl());
+  let direct;
+  try {
+    direct = new URL(wsUrl());
+  } catch (error) {
+    status(error.message, true);
+    $("fullpage").hidden = true;
+    return;
+  }
+  $("fullpage").hidden = false;
   direct.protocol = direct.protocol === "wss:" ? "https:" : "http:";
   direct.pathname = "/transfer/";
   direct.search = "";
@@ -126,6 +130,13 @@ function connect(as) {
     fail(Error("This browser does not support WebRTC."));
     return;
   }
+  let address;
+  try {
+    address = wsUrl();
+  } catch (error) {
+    status(error.message, true);
+    return;
+  }
   role = as;
   busy = true;
   $("create").disabled = true;
@@ -135,7 +146,12 @@ function connect(as) {
   status("Connecting to signaling server…");
   pendingIce = [];
   signalQueue = Promise.resolve();
-  ws = new WebSocket(wsUrl());
+  try {
+    ws = new WebSocket(address);
+  } catch (error) {
+    fail(error);
+    return;
+  }
   connectTimer = setTimeout(
     () =>
       fail(
@@ -157,7 +173,7 @@ function connect(as) {
   ws.onerror = () =>
     fail(
       Error(
-        "Cannot reach signaling server. Check its address and start the server.",
+        "Cannot reach signaling server. It may be starting up; try again shortly. The owner should check SIGNALING_URL and the server ALLOWED_ORIGINS.",
       ),
     );
   ws.onclose = () => {

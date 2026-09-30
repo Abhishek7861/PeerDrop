@@ -51,6 +51,9 @@ def config() -> dict:
 @app.websocket('/ws')
 async def signaling(ws: WebSocket) -> None:
     allowed = os.getenv('ALLOWED_ORIGINS', 'http://localhost:8501,http://127.0.0.1:8501,http://localhost:8765,http://127.0.0.1:8765').split(',')
+    allowed = {origin.strip().rstrip('/') for origin in allowed if origin.strip()}
+    if os.getenv('RENDER_EXTERNAL_URL'):
+        allowed.add(os.environ['RENDER_EXTERNAL_URL'].rstrip('/'))
     if ws.headers.get('origin') not in allowed:
         await ws.close(code=1008)
         return
@@ -124,4 +127,4 @@ app.mount('/transfer', StaticFiles(directory=Path(__file__).resolve().parents[1]
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host=os.getenv('SIGNAL_HOST', '0.0.0.0'), port=int(os.getenv('SIGNAL_PORT', '8765')), ws_max_size=MAX_MESSAGE)
+    uvicorn.run(app, host=os.getenv('SIGNAL_HOST', '0.0.0.0'), port=int(os.getenv('PORT', os.getenv('SIGNAL_PORT', '8765'))), ws_max_size=MAX_MESSAGE)

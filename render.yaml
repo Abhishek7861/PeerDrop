@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: peerdrop-signaling
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-signaling.txt
+    startCommand: python signaling/server.py
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: ALLOWED_ORIGINS
+        sync: false

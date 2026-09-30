@@ -23,6 +23,26 @@ streamlit run app.py
 
 Open http://localhost:8501. The standalone component is also available at http://localhost:8765/transfer/ and supports the same protocol. No frontend build or external CDN is required.
 
+## Deploy with Streamlit Community Cloud
+
+Deploying `app.py` starts the interface only. Cloud does not run `signaling/server.py` for you. Never point the cloud app at its own port 8765; deploy the signaling service first.
+
+1. Open [Deploy the signaling service on Render](https://render.com/deploy?repo=https://github.com/Abhishek7861/PeerDrop). Sign in and review the included `render.yaml` Blueprint. It requests one free Python web service, with no database or disk. Free-service availability is subject to Render's account limits.
+2. Set the prompted `ALLOWED_ORIGINS` value to `https://7zqbe2t2hlycslhhmnmuty.streamlit.app` (no path). For another app, use its actual HTTPS origin. Multiple origins can be comma separated. The Render service's own HTTPS origin is added automatically for its standalone transfer page.
+3. After the service is live, open its `/health` URL; it should return `{"status":"ok"}`. Copy the actual assigned hostname; do not assume the service name determines the URL.
+4. In Streamlit Cloud, open your app's **Settings → Secrets** and add:
+
+```toml
+SIGNALING_URL = "wss://YOUR-ACTUAL-SIGNALING-HOST.onrender.com/ws"
+PUBLIC_APP_URL = "https://7zqbe2t2hlycslhhmnmuty.streamlit.app/"
+```
+
+5. Save and reboot the Streamlit app if needed. Reload both browser tabs, create a fresh room, and test a small file first.
+
+Streamlit reads these root-level secrets explicitly; environment variables take precedence. Both HTTPS and secure WebSockets are required. Render supplies the `PORT` environment variable, which the server now honors. Keep the service at one instance/worker because rooms are in memory.
+
+Free hosting can sleep or restart: the first connection may take time, and existing rooms are lost on restart. Reload and retry after the health endpoint responds. TURN is still needed for some networks; STUN alone cannot guarantee every pair of devices can connect. Configure TURN on both deployments if required. If a native save picker is unavailable inside the iframe, use the bounded download option for small files or open the standalone `/transfer/` page on the signaling service for large files.
+
 ## Architecture and files
 
 ```text
@@ -111,7 +131,7 @@ export TURN_PASSWORD='YOUR_PASSWORD'
 
 ```sh
 python -m pytest -q
-node --test tests/transfer.test.js
+node --test tests/*.test.js
 ```
 
 Optional Chromium end-to-end test (requires both servers running):
@@ -134,4 +154,4 @@ Share room codes privately. Possession of a code grants access; there is no auth
 
 ## GitHub repository and hosting
 
-This is a private GitHub source repository. GitHub Actions runs the Python and JavaScript tests on pushes to main and on pull requests. GitHub Pages cannot run the Python Streamlit or FastAPI servers. To make the app publicly accessible, deploy both services behind HTTPS/WSS and configure their public addresses and allowed origins as described above.
+This is a public GitHub source repository. GitHub Actions runs the Python and JavaScript tests on pushes to main and on pull requests. GitHub Pages cannot run the Python Streamlit or FastAPI servers. To make the app publicly accessible, deploy both services behind HTTPS/WSS and configure their public addresses and allowed origins as described above.
