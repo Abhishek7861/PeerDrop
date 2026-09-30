@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>PeerDrop</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a class="brand" href="./">↗ <b>PeerDrop</b></a
+        ><span class="privacy">● &nbsp; PRIVATE BY DESIGN</span>
+      </nav>
+      <section class="intro">
+        <span class="eyebrow">LESS WAITING. MORE SHARING.</span>
+        <h1>Your files.<br />A direct connection.</h1>
+        <p>
+          Send files straight to another browser.<br />No cloud storage. No
+          account. Just you two.
+        </p>
+      </section>
+      <section class="card">
+        <div class="tabs">
+          <button id="sendTab" class="active">↗ &nbsp; Send a file</button
+          ><button id="receiveTab">↙ &nbsp; Receive a file</button>
+        </div>
+        <div id="sendPanel">
+          <label id="drop" class="drop"
+            ><span class="file-icon">↥</span
+            ><strong id="selected">Drop a file here</strong
+            ><span>or click to browse your device</span
+            ><input id="file" type="file" /></label
+          ><button id="create" class="primary" disabled>
+            Create transfer link <span>→</span>
+          </button>
+        </div>
+        <div id="receivePanel" hidden>
+          <label class="label" for="codeInput">ENTER TRANSFER CODE</label
+          ><input
+            id="codeInput"
+            maxlength="6"
+            autocomplete="off"
+            placeholder="X7K9A2"
+          /><button id="join" class="primary">
+            Connect to sender <span>→</span>
+          </button>
+        </div>
+        <div id="room" hidden>
+          <span class="label">YOUR TRANSFER CODE</span>
+          <div id="roomCode"></div>
+          <button id="copy" class="secondary">Copy share link</button>
+          <p class="muted">
+            Share this code with your receiver. Keep this tab open.
+          </p>
+        </div>
+        <div id="offer" hidden>
+          <div class="file-icon">▤</div>
+          <h2 id="fileName"></h2>
+          <p id="fileSize"></p>
+          <button id="accept" class="primary">
+            Accept & choose save location →
+          </button>
+        </div>
+        <button id="acceptDownload" class="secondary" hidden>Accept & download after transfer (up to 64 MiB)</button>
+        <div id="transfer" hidden>
+          <progress id="progress" max="100" value="0"></progress>
+          <div class="progress-line">
+            <strong id="percent">0%</strong><span id="bytes">0 B</span>
+          </div>
+          <div class="metrics">
+            <div><small>CURRENT SPEED</small><b id="speed">—</b></div>
+            <div><small>TIME LEFT</small><b id="eta">—</b></div>
+            <div><small>AVERAGE</small><b id="average">—</b></div>
+            <div><small>PEAK</small><b id="peak">—</b></div>
+          </div>
+          <p id="elapsed" class="muted">Elapsed: 0s</p>
+        </div>
+        <p id="status" role="status" aria-live="polite">Ready when you are.</p>
+        <p id="connection" class="muted"></p>
+        <a id="download" class="primary" hidden>Save verified file ↓</a
+        ><button id="reset" class="secondary" hidden>
+          Start a new transfer
+        </button>
+      </section>
+      <footer>
+        <span>◎ &nbsp; Encrypted in transit</span
+        ><span>⇄ &nbsp; Browser to browser</span
+        ><span>◷ &nbsp; Codes expire in 15 min</span>
+      </footer>
+      <p class="note">
+        Large files save directly to disk in Chrome & Edge. Other browsers
+        support files up to 64 MiB.
+        <a id="fullpage" target="_blank" rel="noopener"
+          >Open full-page transfer ↗</a
+        >
+      </p>
+    </main>
+    <script type="module" src="webrtc.js"></script>
+  </body>
+</html>

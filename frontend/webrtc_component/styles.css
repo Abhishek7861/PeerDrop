@@ -1,0 +1,291 @@
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #193b33;
+  background: #f6f8f5;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 780px;
+  margin: auto;
+  padding: 26px 28px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-size: 24px;
+  text-decoration: none;
+  color: #174b3c;
+  letter-spacing: -1px;
+}
+.privacy {
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: #5d806d;
+}
+.intro {
+  text-align: center;
+  padding: 48px 0 25px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #698471;
+}
+h1 {
+  font-size: 52px;
+  line-height: 1.06;
+  letter-spacing: -2.5px;
+  margin: 18px 0;
+}
+p {
+  line-height: 1.6;
+  color: #738178;
+  font-size: 14px;
+}
+.card {
+  background: white;
+  border: 1px solid #dce5dc;
+  border-radius: 20px;
+  padding: 26px;
+  max-width: 550px;
+  margin: auto;
+  box-shadow: 0 12px 40px #284d3410;
+}
+.tabs {
+  display: flex;
+  background: #f0f4ef;
+  padding: 5px;
+  border-radius: 11px;
+  margin-bottom: 24px;
+}
+.tabs button {
+  width: 50%;
+  background: none;
+  color: #7e8a80;
+}
+.tabs .active {
+  background: #fff;
+  color: #24533f;
+  box-shadow: 0 2px 7px #22332212;
+}
+button,
+a.primary {
+  border: 0;
+  border-radius: 8px;
+  padding: 14px 17px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.drop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 190px;
+  border: 1.5px dashed #c8d7c8;
+  border-radius: 12px;
+  background: #fafcf8;
+  cursor: pointer;
+  margin-bottom: 18px;
+}
+.drop.drag {
+  border-color: #287a52;
+  background: #e9f4e8;
+}
+.drop span:not(.file-icon) {
+  font-size: 12px;
+  color: #8a968a;
+}
+.drop strong {
+  font-size: 14px;
+  max-width: 95%;
+  overflow-wrap: anywhere;
+}
+.file-icon {
+  display: block;
+  font-size: 29px;
+  background: #eaf1e6;
+  color: #4f7959;
+  border-radius: 12px;
+  padding: 6px 15px;
+}
+.drop input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.primary {
+  display: block;
+  background: #24593f;
+  color: white;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+}
+.primary span {
+  float: right;
+}
+.secondary {
+  background: #edf3e9;
+  color: #29583d;
+  margin: 10px 0;
+}
+.label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #788773;
+}
+#codeInput {
+  width: 100%;
+  font-size: 32px;
+  letter-spacing: 10px;
+  border: 1px solid #cdd9cb;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 12px 0 20px;
+  text-transform: uppercase;
+}
+#room {
+  text-align: center;
+  padding-top: 25px;
+}
+#roomCode {
+  font-size: 40px;
+  letter-spacing: 9px;
+  margin: 10px;
+  font-weight: 700;
+}
+#status {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #416f4b;
+}
+#status.error {
+  color: #af3939;
+}
+#connection {
+  text-align: center;
+  font-size: 12px;
+}
+.muted {
+  font-size: 12px;
+  color: #83907f;
+}
+h2 {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+#offer {
+  padding-top: 22px;
+}
+#offer .file-icon {
+  display: inline-block;
+}
+progress {
+  width: 100%;
+  height: 9px;
+  appearance: none;
+  margin-top: 25px;
+}
+progress::-webkit-progress-bar {
+  background: #edf1e9;
+  border-radius: 10px;
+}
+progress::-webkit-progress-value {
+  background: #65a464;
+  border-radius: 10px;
+}
+.progress-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 12px 0 24px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.metrics small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #83907f;
+}
+.metrics b {
+  font-size: 21px;
+  display: block;
+  margin-top: 6px;
+}
+footer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 10px;
+  color: #7f8d7b;
+  margin: 25px 0;
+}
+.note {
+  font-size: 11px;
+  text-align: center;
+  max-width: 520px;
+  margin: auto;
+}
+.note a {
+  color: #3c7550;
+  text-decoration: underline;
+  cursor: pointer;
+}
+[hidden] {
+  display: none !important;
+}
+:focus-visible {
+  outline: 3px solid #79ab70;
+  outline-offset: 3px;
+}
+@media (max-width: 500px) {
+  main {
+    padding: 20px 12px;
+  }
+  h1 {
+    font-size: 41px;
+  }
+  .privacy {
+    font-size: 8px;
+  }
+  .card {
+    padding: 18px;
+  }
+  footer {
+    gap: 10px;
+    font-size: 8px;
+  }
+}
